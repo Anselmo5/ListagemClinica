@@ -1,0 +1,22 @@
+body{
+  background-color: #131313;
+}
+
+.aling{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+h2{
+  font-family: 'Alata', sans-serif;
+  color: #fff;
+}
+
+
+.aling a{
+  text-decoration: none;
+  color: #fff;
+  font-family: 'Alata', sans-serif;;
+}
