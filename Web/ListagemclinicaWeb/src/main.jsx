@@ -10,6 +10,7 @@ import App from "./App"
 import Consulta from "./components/Consulta";
 import Agendar from "./components/Agendar";
 import "./index.css"
+import { dadosrender } from "./context/dadosrender";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "consulta",
+    path: "/consulta",
     element:<Consulta/>,
   },
  
@@ -30,5 +31,9 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
+
+  <dadosrender>
+       <RouterProvider router={router} />
+  </dadosrender>
+ 
 );
