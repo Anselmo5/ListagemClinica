@@ -1,95 +1,103 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View,FlatList } from 'react-native';
-import { Link } from "expo-router";
-import { useState,useEffect } from 'react';
-import { TextInput } from 'react-native-gesture-handler';
-import { log } from 'react-native-reanimated';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, TextInput, FlatList } from 'react-native';
 
+const Agendar = () => {
+  const [taks, setTaks] = useState([]);
+  const [text, setText] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [endereco, setEndereco] = useState('');
+  const [idade, setIdade] = useState('');
+  const [telefone, setTelefone] = useState('');
 
-
-export default function Agendar() {
-    const [dados, setDados] = useState([]);
-
-   
-    const dadosIniciais = [
-        { id: '1', nome: 'João', idade: 25, endereco: 'Rua A, 123' },
-        { id: '2', nome: 'Maria', idade: 30, endereco: 'Rua B, 456' },
-        { id: '3', nome: 'Pedro', idade: 22, endereco: 'Rua C, 789' },
-        { id: '4', nome: 'Ana', idade: 28, endereco: 'Rua D, 1011' },
-        { id: '5', nome: 'Luiza', idade: 35, endereco: 'Rua E, 1213' },
-        { id: '6', nome: 'Lucas', idade: 29, endereco: 'Rua F, 1415' },
-        { id: '7', nome: 'Mariana', idade: 27, endereco: 'Rua G, 1617' },
-        { id: '8', nome: 'Rafael', idade: 26, endereco: 'Rua H, 1819' },
-        { id: '9', nome: 'Juliana', idade: 31, endereco: 'Rua I, 2021' },
-        { id: '10', nome: 'Gustavo', idade: 24, endereco: 'Rua J, 2223' },
-       
-      ];  
-      
-      console.log( dadosIniciais[0]);
-      console.log( dadosIniciais[1]);
-      console.log( dadosIniciais[2]);
-      console.log( dadosIniciais[3]);
-      console.log( dadosIniciais[4]);
-      console.log( dadosIniciais[5]);
-      console.log( dadosIniciais[6]);
-      console.log( dadosIniciais[7]);
-      console.log( dadosIniciais[8]);
-      console.log( dadosIniciais[9]);
-    
-      useEffect(() => {
-        setDados(dadosIniciais);
-
-      }, []);
-
-
+  const adicionarPaciente = () => {
+    if (text.trim() !== '' && cpf.trim() !== '' && endereco.trim() !== '' && idade.trim() !== '' && telefone.trim() !== '') {
+      const novoPaciente = {
+        id: taks.length + 1, // Adiciona um ID único para cada paciente
+        text: text,
+        cpf: cpf,
+        telefone: telefone,
+        endereco: endereco,
+        idade: idade
+      };
+      setTaks([...taks, novoPaciente]);
+      setText('');
+      setCpf('');
+      setTelefone('');
+      setIdade('');
+      setEndereco('');
+    } else {
+      alert('Preencha todos os campos');
+    }
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Agendar</Text>
+      <View style={styles.aling}>
+        <Text style={styles.titulo}>Agendamento de Pacientes</Text>
+        <View style={styles.inpaling}>
+          <TextInput
+            placeholder='PACIENTE'
+            value={text}
+            onChangeText={text => setText(text)}
+            style={styles.inp}
+          />
 
-        <View style={styles.model}> 
-                <TextInput placeholder='Adicionar' style={styles.inp}/>
-                <FlatList
-        data={dados}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Text style={styles.form}>{item.nome} {item.idade} {item.endereco}</Text>
-     
+          <TextInput
+            placeholder='CPF'
+            value={cpf}
+            onChangeText={cpf => setCpf(cpf)}
+            style={styles.inp}
+          />
 
-        )}
-      />
+          <TextInput
+            placeholder='ENDEREÇO'
+            value={endereco}
+            onChangeText={endereco => setEndereco(endereco)}
+            style={styles.inp}
+          />
 
+          <TextInput
+            placeholder='IDADE'
+            value={idade}
+            onChangeText={idade => setIdade(idade)}
+            style={styles.inp}
+          />
 
-                <TouchableOpacity style={styles.btn}>
-                    <View>
-                        <Text style={styles.text}>+</Text>
-                    </View>
-                </TouchableOpacity>
+          <TextInput
+            placeholder='TELEFONE'
+            value={telefone}
+            onChangeText={telefone => setTelefone(telefone)} //adicionado, (onchangeTexte fornece como um argumento uma string quando a uma chamada(função))
+            style={styles.inp}
+          />
 
+          <TouchableOpacity onPress={adicionarPaciente} style={styles.btn}>
+            <Text style={styles.text}>Adicionar</Text>
+          </TouchableOpacity>
 
+          {/* Listando os itens com FlatList */}
+          <FlatList
+            data={taks}
+            keyExtractor={(item) => item.id.toString()} // Use item.id como chave
+            renderItem={({ item }) => (
+              <View style={styles.pacienteItem}>
+                <Text>Nome: {item.text}</Text>
+                <Text>CPF: {item.cpf}</Text>
+                <Text>Endereço: {item.endereco}</Text>
+                <Text>Idade: {item.idade}</Text>
+                <Text>Telefone: {item.telefone}</Text>
+              </View>
+            )}
+          />
         </View>
-
-
-
-            <TouchableOpacity style={styles.btn}>
-                    <View>
-                        <Text style={styles.text}>Alterar</Text>
-                    </View>
-                </TouchableOpacity>
-
-
-
-
-      <StatusBar style="auto" />
-      <Link href="/Consulta">Consulta</Link>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titulo:{
-    fontWeight:'bold',
-    fontSize:20,
+  titulo: {
+    fontWeight: 'bold',
+    fontSize: 17,
   },
   container: {
     flex: 1,
@@ -97,49 +105,42 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  model:{
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
-    flexDirection:'column',
-
+  aling: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginTop:150
   },
-
-  inp:{
-    textAlign:"left",
-    color:"#fff",
-    marginTop:10,
-    padding:10,
-    backgroundColor:"#FF7A00",
-    borderRadius:10,
-    width:332,
-    height:42,
-
+  pacienteItem: {
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
   },
-
   btn:{
-    backgroundColor:"#FF7A00",
-    borderRadius:5,
-    width:48,
-    height:41,
-    textAlign:"center",
-    marginLeft:400,
-    bottom:505,
-    margin:5,
-  },
 
+      padding:10,
+      margin:10,
+      width:300, 
+      height:50,
+      backgroundColor:'#131313',   
+      borderRadius:5,  
+  }, 
   text:{
-    marginTop:12,
-    color:"#fff"
+    color:'#fff',
+    textAlign:'center',
+    marginTop:4,
+  },
+  inp:{
+    padding:10,
+    margin:10,
+    width:300, 
+    height:50,
+    backgroundColor:'#ff8800',   
+    borderRadius:5,
   },
 
-  form:{
-    backgroundColor:"#BC0D0D",
-    padding:10,
-    margin:5,
-    width:310,
-    borderRadius:5,
-    color:"#fff"
-    
-  }
 });
+
+export default Agendar;
