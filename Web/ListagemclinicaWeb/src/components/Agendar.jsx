@@ -79,10 +79,6 @@ function TaskList() {
           </li>
         ))}
       </ul>
-
-          <div className='end'>
-              <Link to="/consulta">Consulte Seus Dados</Link>
-          </div>
     </div>
   );
 }

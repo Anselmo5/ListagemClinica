@@ -1,13 +1,9 @@
-import React, { useContext } from 'react'
-import { dadosrender } from '../context/dadosrender'
-const Consulta  = () => {
+import React from 'react'
 
-  const [tasks,address,taskText,age,cpf,phone] = useContext(dadosrender);
-  c
-
+const Consulta = () => {
   return (
     <div>
-      <p> {cpf}</p>
+      
     </div>
   )
 }
