@@ -1,70 +1,29 @@
 import { Link } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, TextInput, FlatList } from 'react-native';
 
 
 const Agendar = () => {
-  const [taks, setTaks] = useState([]);
+  const [products, setProducts] = useState([])
 
-  const footballPlayers = [
-    {
-    name: "Cristiano Ronaldo",
-    position: "Forward",
-    age: 36,
-    },
-    {
-    name: "Lionel Messi",
-    position: "Attacking Midfielder",
-    age: 34,
-    },
-    {
-    name: "Neymar Jr.",
-    position: "Forward",
-    age: 29,
-    },
-    {
-    name: "Kylian Mbappé",
-    position: "Forward",
-    age: 23,
-    },
-    {
-    name: "Sergio Ramos",
-    position: "Defender",
-    age: 35,
-    },
-    {
-    name: "Kevin De Bruyne",
-    position: "Midfielder",
-    age: 30,
-    },
-    {
-    name: "Robert Lewandowski",
-    position: "Forward",
-    age: 32,
-    },
-    {
-    name: "Virgil van Dijk",
-    position: "Defender",
-    age: 30,
-    },
-    {
-    name: "Luka Modric",
-    position: "Midfielder",
-    age: 35,
-    },
-    {
-    name: "Erling Haaland",
-    position: "Forward",
-    age: 21,
-    },
-    ];
-
+  const url =  "http://localhost:3000/jogadores"
   
+  useEffect(() =>{
+     async function fecthData(){
+      const res = await fetch(url)
+      const data = await res.json()
+      setProducts(data)
+    }
+
+    fecthData()
+  }, [])
+
+
   return (
     <View style={styles.container}>
       <View style={styles.aling}>
         <FlatList
-        data={footballPlayers}
+        data={products}
         keyExtractor={(item) => item.id}
         renderItem={({item}) =>(
           <Text style={styles.inp}> {item.name} {item.age} : {item.position}</Text>
